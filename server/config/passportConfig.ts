@@ -16,7 +16,7 @@ passport.use(new DiscordStrategy({
 },
   async (accessToken: string, refreshToken: string, profile: Profile, done: VerifyCallback) => {
     try {
-      const existingUser = await findUser(profile.id);
+      const existingUser: User = await findUser(profile.id);
       if (existingUser) {
         return done(null, existingUser);
       } else {
@@ -30,15 +30,15 @@ passport.use(new DiscordStrategy({
   }
 ));
 
-passport.serializeUser((user: User, done) => {
-  done(null, user.id); 
+passport.serializeUser((user, done) => {
+  done(null, (user as User).id); 
 });
 
 passport.deserializeUser((id: string, done) => {
   findUser(id)
     .then((user) => {
       if (user) {
-        done(null, user);  
+        done(null, user as User);  
       } else {
         done(null, null); 
       }
@@ -47,3 +47,5 @@ passport.deserializeUser((id: string, done) => {
       done(err, null);  
     });
 });
+
+export default passport;

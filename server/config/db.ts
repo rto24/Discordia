@@ -13,7 +13,7 @@ export async function findUser(discordId: string) {
 }
 
 export async function createUser(discordId: string, username: string, email: string) {
-  const query = `INSERT INTO Person (discord_id, username, email) VALUES ($1 $2 $3) RETURNING *`;
+  const query = `INSERT INTO Person (discord_id, username, email) VALUES ($1, $2, $3) RETURNING *`;
   const result = await pool.query(query, [discordId, username, email]);
   return result.rows[0]; //return new user added
 }
