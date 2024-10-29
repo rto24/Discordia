@@ -11,7 +11,7 @@ export const successfulLogin = (req: Request, res: Response) => {
       process.env.JWT_SECRET!,
       { expiresIn: '1h' }
     );
-    res.cookie('auth_token', token, { httpOnly: true, secure: true });
+    res.cookie('auth_token', token, { httpOnly: true, secure: false });
     res.redirect('http://localhost:3000/home');
   } else {
     res.status(401).json({ message: 'Login failed' })
@@ -23,9 +23,9 @@ export const failedLogin = (req: Request, res: Response) => {
 };
 
 export const checkAuthStatus = (req: Request, res: Response): void => {
-  const token = req.cookies['auth_token'];
+  const token = req.cookies["auth_token"];
   if (!token) {
-    res.json({ authenticated: false });
+    res.json({ authenticated: false, user: null });
     return;
   }
 
@@ -33,8 +33,7 @@ export const checkAuthStatus = (req: Request, res: Response): void => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as User;
     res.json({ authenticated: true, user: decoded });
   } catch (error) {
-    res.status(401).json({ authenticated: false, message: error });
-    return;
+    res.status(401).json({ authenticated: false, user: null, message: error });
   }
 };
 
