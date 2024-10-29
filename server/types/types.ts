@@ -1,5 +1,6 @@
 export interface User {
-  id: string;
+  id: number;
+  discordId: string;
   username: string;
   email?: string;
 }
