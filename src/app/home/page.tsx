@@ -1,11 +1,21 @@
 "use client";
 
-import React from 'react';
+import React from "react";
+import { useUser } from "@/context/UserContext";
 
 const Homepage = () => {
-  return (
-   <div>Redirect Home</div>
-  )
-}
+  const { username } = useUser();
+  console.log(username)
 
-export default Homepage
+  if (!username) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      Redirect Home {`Hello, ${username}`}
+    </div>
+  );
+};
+
+export default Homepage;
