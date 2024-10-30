@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useUser } from "@/context/UserContext";
+import ItemShop from "@/components/Store";
 
 const Store = () => {
   const { username } = useUser();
@@ -15,6 +16,7 @@ const Store = () => {
         <div></div>
       )
       }
+      <ItemShop />
     </>
   );
 };
