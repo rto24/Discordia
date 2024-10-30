@@ -5,6 +5,7 @@ import cors from "cors";
 import passport from "./config/passportConfig";
 import authRoutes from './routes/authRoutes';
 import cookieParser from 'cookie-parser';
+import storeRoutes from './routes/storeRoutes';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRoutes);
+app.use('/store', storeRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
