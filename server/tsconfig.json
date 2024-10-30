@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2020",            // Target modern JavaScript
-    "module": "CommonJS",          // Use CommonJS modules
-    "outDir": "./dist",            // Output directory for compiled files (if you need compiled JS)
-    "esModuleInterop": true,       // Ensure compatibility between CommonJS and ES modules
-    "strict": true,                // Enable all strict type-checking options
-    "skipLibCheck": true,          // Skip type checking of library declaration files
+    "target": "ES2020",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "strictFunctionTypes": false,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["./server.ts"],      // Include server.ts in root directory
-  "exclude": ["node_modules"]      // Exclude node_modules
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules"]
 }
