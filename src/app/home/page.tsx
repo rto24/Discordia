@@ -7,15 +7,16 @@ const Homepage = () => {
   const { username } = useUser();
   console.log(username)
 
-  if (!username) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div>
-      Redirect Home {`Hello, ${username}`}
-    </div>
-  );
+    <>
+      {username ? (
+        <h1> Welcome Back {username}!</h1>
+      ) : (
+        <div></div>
+      )
+      }
+    </>
+  )
 };
 
 export default Homepage;
