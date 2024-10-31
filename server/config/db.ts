@@ -8,14 +8,28 @@ const pool = new Pool({
 });
 
 export async function findUser(discordId: string) {
-  const result = await pool.query(`SELECT * FROM Person WHERE discord_id = $1`, [discordId]);
+  const query = `SELECT * FROM Person WHERE discord_id = $1`;
+  const result = await pool.query(query, [discordId]);
   return result.rows[0]; //return existing user info
-}
+};
 
 export async function createUser(discordId: string, username: string, email: string) {
-  const query = `INSERT INTO Person (discord_id, username, email) VALUES ($1, $2, $3) RETURNING *`;
-  const result = await pool.query(query, [discordId, username, email]);
+  const currency = 0;
+  const query = `INSERT INTO Person (discord_id, username, email, currency) VALUES ($1, $2, $3, $4) RETURNING *`;
+  const result = await pool.query(query, [discordId, username, email, currency]);
   return result.rows[0]; //return new user added
+};
+
+export async function incrementCurrency(discordId: string, amount: number) {
+  const user = await findUser(discordId);
+  if (user) {
+    const newCurrency = user.currency + amount;
+    const query = `UPDATE Person SET currency = $1 WHERE discord_id = $2 RETURNING *`;
+    const result = await pool.query(query, [newCurrency, discordId]);
+    return result.rows[0];
+  } else {
+    throw new Error('User not found');
+  }
 }
 
 export default pool;
