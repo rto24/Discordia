@@ -3,5 +3,6 @@ export interface User {
   discordId: string;
   username: string;
   email?: string;
+  currency: number;
 }
 
