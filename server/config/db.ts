@@ -23,7 +23,7 @@ export async function createUser(discordId: string, username: string, email: str
 export async function incrementCurrency(discordId: string, amount: number) {
   const user = await findUser(discordId);
   if (user) {
-    const newCurrency = user.currency + amount;
+    const newCurrency = Number(user.currency) + amount;
     const query = `UPDATE Person SET currency = $1 WHERE discord_id = $2 RETURNING *`;
     const result = await pool.query(query, [newCurrency, discordId]);
     return result.rows[0];
