@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { storeItem } from '@/types/types';
 import Image from 'next/image';
+import { Button } from './ui/button';
 
 const ItemShop = () => {
   const [items, setItems] = useState<storeItem[]>([]);
@@ -15,6 +16,7 @@ const ItemShop = () => {
           throw new Error('Failed to get store items');
         }
         const data: storeItem[] = await response.json();
+        data.sort((a, b) => a.id - b.id);
         setItems(data);
         console.log(data);
       }
@@ -23,27 +25,35 @@ const ItemShop = () => {
       }
     };
     getItems();
-  }, [])
+  }, []);
 
   return (
     <div>
-      {items.map((item) => (
-        <div className="flex flex-col" key={item.id}>
-          <h1>{item.name}</h1>
-          <p>{+item.price}</p>
-          <p>{item.tier}</p>
-          <p>{item.type}</p>
-          {/* <img src="../../public/pheonix-feather.png" alt="Pheonix Feather" /> */}
-          <Image 
-            src="/pheonix-feather.png" 
-            alt="Pheonix Feather"
-            width={300}
-            height={300}
-          />
-        </div>
-      ))}
+      <h1>Item Shop</h1>
+      <div className="grid gap-4 grid-cols-5 grid-rows-4">
+        {items.map((item) => {
+          item.name = item.name.toLowerCase().replace(" ", "-");
+          const imagePath = `/${item.name}.png`;
+          return (
+            <div className="flex flex-col" key={item.id}>
+              <h2>{item.name}</h2>
+              <Image 
+                src={imagePath}
+                alt={item.name}
+                width={200}
+                height={200}
+              />
+              <p>Price: {item.price}</p>
+              <p>{item.tier}</p>
+              <p>{item.type}</p>
+              <p>{item.description}</p>
+              <Button>Purchase</Button>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
-}
+};
 
 export default ItemShop
