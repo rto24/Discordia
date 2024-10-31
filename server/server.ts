@@ -6,6 +6,7 @@ import passport from "./config/passportConfig";
 import authRoutes from './routes/authRoutes';
 import cookieParser from 'cookie-parser';
 import storeRoutes from './routes/storeRoutes';
+import './config/discord';
 
 dotenv.config();
 
