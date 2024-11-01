@@ -25,7 +25,8 @@
     "jsonwebtoken": "^9.0.2",
     "passport": "^0.7.0",
     "passport-discord": "^0.1.4",
-    "pg": "^8.13.0"
+    "pg": "^8.13.0",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.7",

@@ -6,3 +6,7 @@ export interface User {
   currency: number;
 }
 
+export interface WebSocketClient {
+  send: (data: string) => void;
+  readyState: number;
+}

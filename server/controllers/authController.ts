@@ -31,7 +31,7 @@ export const checkAuthStatus = (req: Request, res: Response): void => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as User;
-    res.json({ authenticated: true, user: decoded });
+    res.json({ authenticated: true, user: decoded, token });
   } catch (error) {
     res.status(401).json({ authenticated: false, user: null, message: error });
   }

@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits } from 'discord.js';
-import { incrementCurrency } from './db';
 import dotenv from 'dotenv';
+import { incrementCurrency } from './db';
+import { broadcastCurrencyUpdate } from '../services/websocket';
 
 dotenv.config();
 
@@ -20,8 +21,13 @@ client.once('ready', () => {
 client.on('messageCreate', async (message) => {
   if (!message.author.bot) {
     const discordId = message.author.id;
+    const username = message.author.username;
     const currencyIncrease = 1;
-    await incrementCurrency(discordId, currencyIncrease);
+
+    const updatedUser = await incrementCurrency(discordId, currencyIncrease);
+    if (updatedUser) {
+      broadcastCurrencyUpdate(username, updatedUser.currency)
+    }
     console.log(`Added ${currencyIncrease} currency to ${message.author.tag}`)
   }
 });
@@ -30,7 +36,8 @@ const userCallTimes = new Map<string, number>();
 
 client.on('voiceStateUpdate', async (oldState, newState) => {
   const discordId = newState.member?.user.id;
-  if (!discordId || newState.member?.user.bot) return;
+  const username = newState.member?.user.username;
+  if (!discordId || !username || newState.member?.user.bot) return;
 
   if (!oldState.channel && newState.channel) {
     userCallTimes.set(discordId, Date.now());
@@ -39,7 +46,12 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
     if (startTime) {
       const durationMinutes = (Date.now() - startTime) / 60000;
       const currencyIncrease = Math.floor(durationMinutes);
-      await incrementCurrency(discordId, currencyIncrease);
+
+      const updatedUser = await incrementCurrency(discordId, currencyIncrease);
+      if (updatedUser) {
+        broadcastCurrencyUpdate(username, updatedUser.currency);
+      }
+
       userCallTimes.delete(discordId);
       console.log(`Added ${currencyIncrease} currency to ${newState.member.user.tag}`);
     }

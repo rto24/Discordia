@@ -4,11 +4,17 @@ import Image from 'next/image';
 import { Button } from './ui/button';
 import { useUser } from '@/context/UserContext';
 
+// const getToken = (): string | null => {
+//   const tokenMatch = document.cookie.match(/(^|;)\\s*token=([^;]+)/);
+//   console.log(tokenMatch);
+//   return tokenMatch ? tokenMatch[2] : null;
+// }
+
 const ItemShop = () => {
   const [items, setItems] = useState<storeItem[]>([]);
   const [currency, setCurrency] = useState<number>(0);
 
-  const { username } = useUser();
+  const { username, token } = useUser();
 
   useEffect(() => {
     const getItems = async () => {
@@ -51,6 +57,29 @@ const ItemShop = () => {
     };
     getCurrency(username);
   }, [username])
+
+  useEffect(() => {
+    if (!token) return;
+  
+    const ws = new WebSocket(`ws://localhost:8080?token=${token}`);
+  
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.currency !== undefined) {
+        setCurrency(data.currency);
+      }
+    };
+  
+    ws.onerror = (error) => {
+      console.error("WebSocket Error:", error);
+    };
+  
+    ws.onclose = () => console.log("Disconnected from WebSocket server");
+  
+    return () => {
+      ws.close();
+    };
+  }, [token]);
 
   return (
     <div>
