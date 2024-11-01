@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { storeItem } from '@/types/types';
 import Image from 'next/image';
 import { Button } from './ui/button';
+import { useUser } from '@/context/UserContext';
 
 const ItemShop = () => {
   const [items, setItems] = useState<storeItem[]>([]);
+  const [currency, setCurrency] = useState<number>(0);
+
+  const { username } = useUser();
 
   useEffect(() => {
     const getItems = async () => {
@@ -27,9 +31,31 @@ const ItemShop = () => {
     getItems();
   }, []);
 
+  useEffect(() => {
+    const getCurrency = async (username: string | null) => {
+      try {
+        const response = await fetch("http://localhost:8080/store/currency", {
+          method: 'POST',
+          headers: { 'Content-Type' : 'application/json' },
+          body: JSON.stringify({ username })
+        });
+        if (!response.ok) {
+          throw new Error('Failed to get currency');
+        }
+        const data = await response.json();
+        setCurrency(data);
+      }
+      catch (error) {
+        console.error(error);
+      }
+    };
+    getCurrency(username);
+  }, [username])
+
   return (
     <div>
       <h1>Item Shop</h1>
+      <h2>{`${currency}`}</h2>
       <div className="grid gap-4 grid-cols-5 grid-rows-4">
         {items.map((item) => {
           item.name = item.name.toLowerCase().replace(" ", "-");
