@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import session from 'express-session';
 import dotenv from "dotenv";
 import cors from "cors";
@@ -31,7 +31,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRoutes);
-app.use('/store', storeRoutes)
+app.use('/store', storeRoutes);
+
+app.use((req: Request, res: Response) => {
+  res.status(404).send("This is not the page you are looking for...")
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
