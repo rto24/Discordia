@@ -42,10 +42,6 @@ app.use((req: Request, res: Response) => {
   res.status(404).send("This is not the page you are looking for...")
 });
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running on http://localhost:${PORT}`)
-// })
-
 server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
 })

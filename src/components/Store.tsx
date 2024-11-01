@@ -4,12 +4,6 @@ import Image from 'next/image';
 import { Button } from './ui/button';
 import { useUser } from '@/context/UserContext';
 
-// const getToken = (): string | null => {
-//   const tokenMatch = document.cookie.match(/(^|;)\\s*token=([^;]+)/);
-//   console.log(tokenMatch);
-//   return tokenMatch ? tokenMatch[2] : null;
-// }
-
 const ItemShop = () => {
   const [items, setItems] = useState<storeItem[]>([]);
   const [currency, setCurrency] = useState<number>(0);
