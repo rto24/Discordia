@@ -28,9 +28,55 @@ const getCurrency: RequestHandler = async (req: Request, res: Response, next: Ne
   }
 };
 
+// const updateCurrency: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     // const { userId } = req.params;
+//     const { id, currency } = req.body;
+//     const queryString: string = `
+//       UPDATE Person
+//       SET currency = $1
+//       WHERE id = $2
+//       RETURNING currency
+//     `;
+//     const result = await pool.query(queryString, [currency, id])
+//     res.locals.updatedUser = result.rows[0];
+//     return next();
+//   } catch (error) {
+//     return next(error)
+//   }
+// };
+
+const updateCurrencyAndInventory: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id, currency, itemId } = req.body;
+    const queryString = `
+      WITH updated_person AS (
+        UPDATE Person
+        SET currency = $1
+        WHERE id = $2
+        RETURNING currency
+      ),
+      updated_inventory AS (
+        UPDATE inventory
+        SET items = array_append(items, $3)
+        WHERE person_id = $2
+        RETURNING items
+      )
+      SELECT updated_person.currency, updated_inventory.items
+      FROM updated_person, updated_inventory
+    `;
+    const result = await pool.query(queryString, [currency, id, itemId]);
+    res.locals.updatedUser = result.rows[0];
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const storeController = {
   getItems,
-  getCurrency
+  getCurrency,
+  updateCurrencyAndInventory
 }
 
 
