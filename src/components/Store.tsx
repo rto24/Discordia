@@ -9,7 +9,7 @@ const ItemShop = () => {
   const [items, setItems] = useState<storeItem[]>([]);
   const [currency, setCurrency] = useState<number>(0);
 
-  const { username, token } = useUser();
+  const { userId, username, token } = useUser();
 
   useEffect(() => {
     const getItems = async () => {
@@ -76,6 +76,39 @@ const ItemShop = () => {
     };
   }, [token]);
 
+  const handlePurchase = async (item: storeItem) => {
+    try {
+      if (item.price > currency) {
+        alert('Insufficient funds, you are poor');
+        return;
+      }
+      
+      const newUserBalance = currency - item.price;
+  
+      const response = await fetch(`http://localhost:8080/store/purchase/${userId}`, {
+        method: "PUT",
+        headers: { 'Content-Type' : 'application/json' },
+        body: JSON.stringify({
+          id: userId,
+          currency: newUserBalance,
+          itemId: item.id,
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error("Purchase failed");
+      }
+      
+      const updatedData = await response.json();
+      setCurrency(updatedData.currency);
+      console.log(updatedData.items);
+      alert("Congrats on the new item!");
+  
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center m-5 px-20 overflow-x-hidden">
       <h1 className="text-5xl font-bold text-zinc-800">ITEM SHOP</h1>
@@ -115,6 +148,7 @@ const ItemShop = () => {
                 <p className="text-sm text-gray-400 text-center mb-5 mt-3">{item.description}</p>
                 <Button
                   className="outline outline-1"
+                  onClick={() => handlePurchase(item)}
                 >
                   Purchase
                 </Button>
