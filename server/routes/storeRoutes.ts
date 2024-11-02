@@ -11,4 +11,8 @@ router.post('/currency', storeController.getCurrency, (req: Request, res: Respon
   res.status(200).json(res.locals.currency)
 });
 
+router.put('/purchase/:person_id', storeController.updateCurrencyAndInventory, (req: Request, res: Response): void => {
+  res.status(200).json(res.locals.updatedUser)
+});
+
 export default router;
