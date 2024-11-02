@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useUser } from "@/context/UserContext";
+import InventoryItems from "@/components/Inventory";
 
 const Inventory = () => {
   const { username } = useUser();
@@ -15,6 +16,7 @@ const Inventory = () => {
         <div></div>
       )
       }
+      <InventoryItems />
     </>
   )
 };

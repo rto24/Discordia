@@ -3,20 +3,25 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 interface UserContextType {
+  userId: number | null;
   username: string | null;
   token: string | null;
+  setUserId: React.Dispatch<React.SetStateAction<number | null>>;
   setUsername: React.Dispatch<React.SetStateAction<string | null>>;
   setToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const UserContext = createContext<UserContextType>({
+  userId: null,
   username: null,
   token: null,
+  setUserId: () => {},
   setUsername: () => {},
   setToken: () => {},
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
+  const [userId, setUserId] = useState<number | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
@@ -29,15 +34,18 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         });
         if (response.ok) {
           const data = await response.json();
+          setUserId(data.user.id);
           setUsername(data.user?.username || null);
           setToken(data.token || null);
         } else {
           console.error("Failed to fetch user data:", response.status);
+          setUserId(null);
           setUsername(null); 
           setToken(null);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
+        setUserId(null);
         setUsername(null);
         setToken(null);
       }
@@ -47,7 +55,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ username, token, setUsername, setToken }}>
+    <UserContext.Provider value={{ userId, username, token, setUserId, setUsername, setToken }}>
       {children}
     </UserContext.Provider>
   );
