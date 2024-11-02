@@ -77,7 +77,7 @@ const ItemShop = () => {
   }, [token]);
 
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex flex-col justify-center m-10 px-14 overflow-x-hidden">
       <h1>Item Shop</h1>
       <h2>{`${currency}`}</h2>
       <div className="grid gap-x-20 gap-y-1 grid-cols-5 auto-rows-fr">
