@@ -78,18 +78,18 @@ const ItemShop = () => {
 
   return (
     <div className="flex flex-col justify-center m-5 px-20 overflow-x-hidden">
-      <h1>Item Shop</h1>
-      <h2>{`${currency}`}</h2>
+      <h1 className="text-5xl font-bold text-zinc-800">ITEM SHOP</h1>
+      <h2 className="text-xl font-semibold text-zinc-800">Balance: ${currency}</h2>
       <div className="grid gap-x-20 gap-y-1 grid-cols-5 auto-rows-fr">
         {items.map((item, index) => {
           const formattedItemName = item.name.toLowerCase().replace(/\s+/g, "-");
           const imagePath = `/${formattedItemName}.png`;
 
           const colorMap = {
-            "Common": "text-gray-300 shadow-[0_0_30px_10px_rgba(209,213,219,0.8)]", 
-            "Rare": "text-blue-400 shadow-[0_0_30px_10px_rgba(96,165,250,0.8)]", 
-            "Epic": "text-purple-500 shadow-[0_0_30px_10px_rgba(168,85,247,0.8)]", 
-            "Legendary": "text-orange-500 shadow-[0_0_30px_10px_rgba(249,115,22,0.8)]"
+            "Common": "text-gray-300 shadow-[0_0_30px_10px_rgba(209,213,219,0.7)]", 
+            "Rare": "text-blue-400 shadow-[0_0_30px_10px_rgba(96,165,250,0.7)]", 
+            "Epic": "text-purple-500 shadow-[0_0_30px_10px_rgba(168,85,247,0.7)]", 
+            "Legendary": "text-orange-500 shadow-[0_0_30px_10px_rgba(249,115,22,0.7)]"
           } 
     
           const tierColor = colorMap[item.tier];
@@ -111,7 +111,8 @@ const ItemShop = () => {
                   {item.name}
                 </h3>
                 <h3 className={`font-semibold ${tierColor.split(' ')[0]} text-center`}>{item.tier}</h3>
-                <p className="text-sm text-gray-400 text-center mb-5">{item.description}</p>
+                <p className="text-base font-semibold">Price: ${item.price}</p>
+                <p className="text-sm text-gray-400 text-center mb-5 mt-3">{item.description}</p>
                 <Button
                   className="outline outline-1"
                 >
