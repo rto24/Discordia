@@ -25,7 +25,7 @@ const items = [
   },
   {
     title: "Inventory",
-    url: "http://localhost:3000/invetory",
+    url: "http://localhost:3000/inventory",
     icon: Backpack
   },
   {
