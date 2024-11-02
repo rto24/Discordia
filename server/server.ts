@@ -6,6 +6,7 @@ import passport from "./config/passportConfig";
 import authRoutes from './routes/authRoutes';
 import cookieParser from 'cookie-parser';
 import storeRoutes from './routes/storeRoutes';
+import inventoryRoutes from './routes/inventoryRoutes';
 import { initializeWebSocket } from "./services/websocket";
 import http from 'http';
 import './config/discord';
@@ -37,6 +38,7 @@ app.use(passport.session());
 
 app.use('/auth', authRoutes);
 app.use('/store', storeRoutes);
+app.use('/inventory', inventoryRoutes);
 
 app.use((req: Request, res: Response) => {
   res.status(404).send("This is not the page you are looking for...")
