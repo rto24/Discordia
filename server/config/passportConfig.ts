@@ -31,6 +31,7 @@ passport.use(new DiscordStrategy({
 ));
 
 passport.serializeUser((user, done) => {
+  console.log("Serialize user", user)
   done(null, (user as User).id); 
 });
 

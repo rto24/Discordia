@@ -28,24 +28,6 @@ const getCurrency: RequestHandler = async (req: Request, res: Response, next: Ne
   }
 };
 
-// const updateCurrency: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-//   try {
-//     // const { userId } = req.params;
-//     const { id, currency } = req.body;
-//     const queryString: string = `
-//       UPDATE Person
-//       SET currency = $1
-//       WHERE id = $2
-//       RETURNING currency
-//     `;
-//     const result = await pool.query(queryString, [currency, id])
-//     res.locals.updatedUser = result.rows[0];
-//     return next();
-//   } catch (error) {
-//     return next(error)
-//   }
-// };
-
 const updateCurrencyAndInventory: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id, currency, itemId } = req.body;
