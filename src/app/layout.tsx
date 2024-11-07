@@ -27,9 +27,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <UserProvider>
-          {children}
-        </UserProvider>
+        <div 
+          className="min-h-screen bg-cover bg-center bg-fixed" 
+          style={{ backgroundImage: "linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0)), url('/background-image.png')" }}
+        >
+          <UserProvider>
+            {children}
+          </UserProvider>
+        </div>
       </body>
     </html>
   );
