@@ -1,13 +1,15 @@
+"use client"
+
 import React, { useState, useEffect } from 'react';
-import { storeItem } from '@/types/types';
+import { storeItem, ItemShopProps } from '@/types/types';
 import Image from 'next/image';
 import { Button } from './ui/button';
 import { useUser } from '@/context/UserContext';
 import { CardContainer } from './ui/card';
 import { Modal, ModalTrigger, ModalBody, ModalContent, ModalFooter, ModalProvider } from './ui/animated-modal';
 
-const ItemShop = () => {
-  const [items, setItems] = useState<storeItem[]>([]);
+const ItemShop = ({ initialItems }: ItemShopProps) => {
+  const [items, setItems] = useState<storeItem[]>(initialItems);
   const [currency, setCurrency] = useState<number>(0);
   const [selectedItem, setSelectedItem] = useState<storeItem | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -15,27 +17,10 @@ const ItemShop = () => {
   const { userId, username, token } = useUser();
 
   useEffect(() => {
-    const getItems = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/store/items", {
-          headers: { 'Content-Type': 'application/json' }
-        });
-        if (!response.ok) {
-          throw new Error('Failed to get store items');
-        }
-        const data: storeItem[] = await response.json();
-        data.sort((a, b) => a.id - b.id);
-        setItems(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getItems();
-  }, []);
-
-  useEffect(() => {
     const getCurrency = async (username: string | null) => {
+      if (typeof window === "undefined") return;
       try {
+        if (!username) return;
         const response = await fetch("http://localhost:8080/store/currency", {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -54,7 +39,7 @@ const ItemShop = () => {
   }, [username]);
 
   useEffect(() => {
-    if (!token) return;
+    if (typeof window === "undefined" || !token) return;
 
     const ws = new WebSocket(`ws://localhost:8080?token=${token}`);
 
@@ -77,7 +62,6 @@ const ItemShop = () => {
   }, [token]);
 
   const handleModalOpen = (item: storeItem) => {
-    console.log('CLICKED!', item)
     setSelectedItem(item);
     setModalOpen(true);
   };
