@@ -6,3 +6,7 @@ export type storeItem = {
   tier: "Common" | "Rare" | "Epic" | "Legendary",
   type: string,
 }
+
+export interface ItemShopProps {
+  initialItems: storeItem[];
+}
