@@ -1,34 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { storeItem } from '@/types/types';
-import { useUser } from '@/context/UserContext';
+"use client"
+
+import React, { useState } from 'react';
+import { storeItem, ItemShopProps } from '@/types/types';
 import { CardContainer } from './ui/card';
 import Image from 'next/image';
 import { Button } from './ui/button';
 
-const InventoryItems = () => {
-  const [items, setItems] = useState<storeItem[]>([]);
-
-  const { userId } = useUser();
-
-  useEffect(() => {
-    const getInventory = async (userId: number | null) => {
-      if (userId === null) return;
-      try {
-        const response = await fetch(`http://localhost:8080/inventory/${userId}`, {
-          headers: { 'Content-Type' : 'application/json' }
-        });
-        if (!response.ok) {
-          throw new Error('Failed to get user inventory');
-        }
-        const data = await response.json();
-        setItems(data);
-        console.log(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getInventory(userId);
-  }, [userId])
+const InventoryItems = ({ initialItems }: ItemShopProps) => {
+  const [items, setItems] = useState<storeItem[]>(initialItems);
 
   return (
     <div className="flex flex-col justify-center m-5 px-20 overflow-x-hidden">
