@@ -23,9 +23,18 @@ export const failedLogin = (req: Request, res: Response) => {
 };
 
 export const checkAuthStatus = (req: Request, res: Response): void => {
-  const token = req.cookies["auth_token"];
+  let token = req.cookies["auth_token"];
+
+  if (!token && req.headers.authorization) {
+    const authHeader = req.headers.authorization;
+    if (authHeader.startsWith('Bearer ')) {
+      token = authHeader.split(' ')[1]; 
+    }
+  }
+
   if (!token) {
-    res.json({ authenticated: false, user: null });
+    console.log("No token provided");
+    res.status(401).json({ authenticated: false, user: null, message: 'No token provided' });
     return;
   }
 
@@ -33,6 +42,7 @@ export const checkAuthStatus = (req: Request, res: Response): void => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as User;
     res.json({ authenticated: true, user: decoded, token });
   } catch (error) {
+    console.error("Token verification failed:", error);
     res.status(401).json({ authenticated: false, user: null, message: error });
   }
 };
