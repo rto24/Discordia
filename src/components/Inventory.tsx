@@ -10,8 +10,8 @@ const InventoryItems = ({ initialItems }: ItemShopProps) => {
   const [items, setItems] = useState<storeItem[]>(initialItems);
 
   return (
-    <div className="flex flex-col justify-center m-5 px-20 overflow-x-hidden">
-    <h1 className="text-5xl font-bold text-zinc-800">INVENTORY</h1>
+    <div className="flex flex-col justify-center px-20 overflow-x-hidden">
+    <h1 className="text-5xl font-bold mt-5 mb-5 text-white">INVENTORY</h1>
     <div className="grid gap-x-20 gap-y-1 grid-cols-5 auto-rows-fr">
      {items.map((item, index) => {
           const formattedItemName = item.name.toLowerCase().replace(/\s+/g, "-");
@@ -48,7 +48,7 @@ const InventoryItems = ({ initialItems }: ItemShopProps) => {
                 <Button
                   className="outline outline-1"
                 >
-                  Purchase
+                  View Item
                 </Button>
               </div>
             </CardContainer>
