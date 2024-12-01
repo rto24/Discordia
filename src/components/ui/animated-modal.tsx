@@ -107,7 +107,7 @@ export const ModalBody = ({
           <motion.div
             ref={modalRef}
             className={cn(
-              "w-[90%] md:w-[600px] h-[400px] bg-white dark:bg-neutral-950 border dark:border-neutral-800 shadow-lg rounded-lg p-6 relative z-50",
+              "w-[90%] md:w-[600px] h-[300px] bg-white dark:bg-neutral-950 border dark:border-neutral-800 shadow-lg rounded-lg p-6 relative z-50",
               className
             )}
             initial={{ opacity: 0, scale: 0.5, y: 40 }}
@@ -148,7 +148,7 @@ export const ModalFooter = ({
   return (
     <div
       className={cn(
-        "flex justify-end p-4 bg-gray-100 dark:bg-neutral-900 rounded-b-lg",
+        "flex justify-start gap-2 dark:bg-neutral-900 rounded-b-lg",
         className
       )}
     >
