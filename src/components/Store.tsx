@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Button } from './ui/button';
 import { useUser } from '@/context/UserContext';
 import { CardContainer } from './ui/card';
+import FilterBar from './FilterBar';
 import { Modal, ModalTrigger, ModalBody, ModalContent, ModalFooter, ModalProvider } from './ui/animated-modal';
 
 const ItemShop = ({ initialItems }: ItemShopProps) => {
@@ -102,11 +103,16 @@ const ItemShop = ({ initialItems }: ItemShopProps) => {
     }
   };
 
+  const handleFilter = (filteredItems: storeItem[]) => {
+    setItems(filteredItems);
+  };
+
   return (
     <ModalProvider>
     <div className="flex flex-col justify-center px-20 overflow-x-hidden">
       <h1 className="text-5xl font-bold mt-5 mb-5 text-white">ITEM SHOP</h1>
       <h2 className="text-2xl font-semibold text-white">BALANCE: ${currency}</h2>
+      <FilterBar items={initialItems} onFilter={handleFilter}/>
       <div className="grid gap-x-20 gap-y-1 grid-cols-5 auto-rows-fr">
         {items.map((item, index) => {
           const formattedItemName = item.name.toLowerCase().replace(/\s+/g, "-");
