@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import { storeItem, StoreSearchParams } from "@/types/types";
+import { Input } from "./ui/input";
 
 interface FilterBarProps {
   items: storeItem[];
@@ -29,7 +30,7 @@ const FilterBar = ({ items, onFilter }: FilterBarProps) => {
 
   return (
     <div>
-      Search yay
+      <Input type="text" placeholder="Search..."/>
     </div>
   )
 };
