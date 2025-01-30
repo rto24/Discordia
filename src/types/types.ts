@@ -10,3 +10,12 @@ export type storeItem = {
 export interface ItemShopProps {
   initialItems: storeItem[];
 }
+
+export interface StoreSearchParams {
+  term: string;
+  filters: {
+    itemName?: string[];
+    tier?: string[];
+    type?: string[];
+  }
+}
