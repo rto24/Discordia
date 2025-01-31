@@ -7,7 +7,8 @@ const getInventory: RequestHandler = async (req: Request, res: Response, next: N
     const queryString: string = `
       SELECT i.inventory_id, i.person_id, store.*
       FROM inventory i
-      JOIN store ON store.id = ANY(i.items)
+      CROSS JOIN LATERAL UNNEST(i.items) AS item_id
+      JOIN store ON store.id = item_id
       WHERE i.person_id = $1
     `
     const result = await pool.query(queryString, [person_id]);
