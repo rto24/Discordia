@@ -81,14 +81,15 @@ const FilterBar = ({ items, onFilter }: FilterBarProps) => {
   }, [itemNames, tiers, types, filteredData])
 
   return (
-    <div>
+    <div className="flex flex-wrap justify-center items-center gap-4 md:justify-start">
       <Input 
+        className="w-full sm:w-60 md:w-72 lg:w-1/2 p-2 border rounded-md"
         onChange={(e) => handleSearch(e.target.value)}
         value={searchParams.term}
         type="text" 
         placeholder="Search..."/>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center px-3 py-2 bg-gray-800/50 border border-gray-700/50 rounded-lg hover:bg-gray-700/50 transition-colors">
+        <DropdownMenuTrigger className="flex items-center px-3 py-2 my-2 bg-gray-800/50 border border-gray-700/50 rounded-lg hover:bg-gray-700/50 transition-colors">
           <span className="text-gray-200">Item</span>
           <ChevronDown className="ml-2 w-4 h-4 text-gray-400" />
         </DropdownMenuTrigger>
@@ -99,6 +100,38 @@ const FilterBar = ({ items, onFilter }: FilterBarProps) => {
               onClick={() => handleFilterUpdate("itemName", name)}
             >
               {name}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="flex items-center px-3 py-2 my-2 bg-gray-800/50 border border-gray-700/50 rounded-lg hover:bg-gray-700/50 transition-colors">
+          <span className="text-gray-200">Tier</span>
+          <ChevronDown className="ml-2 w-4 h-4 text-gray-400" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          {tiers.map((tier, index) => (
+            <DropdownMenuItem
+              key={index}
+              onClick={() => handleFilterUpdate("tier", tier)}
+            >
+              {tier}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="flex items-center px-3 py-2 my-2 bg-gray-800/50 border border-gray-700/50 rounded-lg hover:bg-gray-700/50 transition-colors">
+          <span className="text-gray-200">Type</span>
+          <ChevronDown className="ml-2 w-4 h-4 text-gray-400" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          {types.map((type, index) => (
+            <DropdownMenuItem
+              key={index}
+              onClick={() => handleFilterUpdate("type", type)}
+            >
+              {type}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
